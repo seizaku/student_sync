@@ -1,187 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
+  {% load static %}
 
-{% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@5"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@5.0.0/themes.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <title>Student Sync</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <link href="https://cdn.jsdelivr.net/npm/daisyui@5.0.0/themes.css" rel="stylesheet" type="text/css" />
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-  <title>Student Sync</title>
-</head>
-
-<body>
-  <main class="container mx-auto mt-24">
-    <div class="mb-12">
-      <h1 class="font-bold text-2xl">Student Records</h1>
-      <p class="text-sm">Total of 0 records.</p>
-    </div>
-    <div class="overflow-x-auto">
-      <table class="table">
-        <!-- head -->
-        <thead>
-          <tr>
-            <th>
-              <label>
-                <input type="checkbox" class="checkbox" />
-              </label>
-            </th>
-            <th>Student</th>
-            <th>Email</th>
-            <th>Date of Birth</th>
-            <th>Course</th>
-            <th>Enrollment Date</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- row 1 -->
-          <tr>
-            <th>
-              <label>
-                <input type="checkbox" class="checkbox" />
-              </label>
-            </th>
-            <td>
-              <div class="flex items-center gap-3">
-                <div class="avatar">
-                  <div class="mask mask-squircle h-12 w-12">
-                    <img
-                      src="https://img.daisyui.com/images/profile/demo/2@94.webp"
-                      alt="Avatar Tailwind CSS Component" />
+  <body>
+    <main class="container max-w-4xl mx-auto mt-24">
+      <div class="mb-12 flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-bold">Student Records</h1>
+          <p class="text-sm">Total of {{ students|length }} records.</p>
+        </div>
+        <a href="/create-student" class="btn btn-neutral mt-4">
+          <i data-lucide="circle-plus" class="h-4 w-4"></i>
+          Add Student
+        </a>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="table">
+          <!-- head -->
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Email</th>
+              <th>Course</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for student in students %}
+            <tr>
+              <td>
+                <div class="flex items-center gap-3">
+                  <div>
+                    <div class="font-bold">
+                      {{ student.LastName }}, {{ student.FirstName }}
+                    </div>
+                    <div class="text-sm opacity-50">
+                      {{ student.StudentID }}
+                    </div>
                   </div>
                 </div>
-                <div>
-                  <div class="font-bold">Hart Hagerty</div>
-                  <div class="text-sm opacity-50">United States</div>
+              </td>
+              <td>{{ student.Email }}</td>
+              <td>
+                <div class="badge badge-soft badge-primary">
+                  {{ student.Course }}
                 </div>
-              </div>
-            </td>
-            <td>
-              Zemlak, Daniel and Leannon
-              <br />
-              <span class="badge badge-ghost badge-sm">Desktop Support Technician</span>
-            </td>
-            <td>Purple</td>
-            <th>
-              <button class="btn btn-ghost btn-xs">details</button>
-            </th>
-          </tr>
-          <!-- row 2 -->
-          <tr>
-            <th>
-              <label>
-                <input type="checkbox" class="checkbox" />
-              </label>
-            </th>
-            <td>
-              <div class="flex items-center gap-3">
-                <div class="avatar">
-                  <div class="mask mask-squircle h-12 w-12">
-                    <img
-                      src="https://img.daisyui.com/images/profile/demo/3@94.webp"
-                      alt="Avatar Tailwind CSS Component" />
-                  </div>
+              </td>
+              <td>
+                <div class="flex items-center gap-2">
+                  <a
+                    href="/view-student/{{student.StudentID}}"
+                    class="btn btn-sm"
+                    >Details</a
+                  >
+                  <div class="border-r ml-2 border h-4 border-base-200"></div>
+                  <a
+                    href="/update-student/{{student.StudentID}}"
+                    class="btn btn-sm btn-square btn-ghost"
+                  >
+                    <i data-lucide="edit" class="h-4 w-4"></i>
+                  </a>
+                  <a
+                    href="/confirm-delete/{{student.StudentID}}"
+                    class="btn btn-sm btn-square btn-ghost"
+                  >
+                    <i data-lucide="trash" class="h-4 w-4 text-red-500"></i>
+                  </a>
                 </div>
-                <div>
-                  <div class="font-bold">Brice Swyre</div>
-                  <div class="text-sm opacity-50">China</div>
-                </div>
-              </div>
-            </td>
-            <td>
-              Carroll Group
-              <br />
-              <span class="badge badge-ghost badge-sm">Tax Accountant</span>
-            </td>
-            <td>Red</td>
-            <th>
-              <button class="btn btn-ghost btn-xs">details</button>
-            </th>
-          </tr>
-          <!-- row 3 -->
-          <tr>
-            <th>
-              <label>
-                <input type="checkbox" class="checkbox" />
-              </label>
-            </th>
-            <td>
-              <div class="flex items-center gap-3">
-                <div class="avatar">
-                  <div class="mask mask-squircle h-12 w-12">
-                    <img
-                      src="https://img.daisyui.com/images/profile/demo/4@94.webp"
-                      alt="Avatar Tailwind CSS Component" />
-                  </div>
-                </div>
-                <div>
-                  <div class="font-bold">Marjy Ferencz</div>
-                  <div class="text-sm opacity-50">Russia</div>
-                </div>
-              </div>
-            </td>
-            <td>
-              Rowe-Schoen
-              <br />
-              <span class="badge badge-ghost badge-sm">Office Assistant I</span>
-            </td>
-            <td>Crimson</td>
-            <th>
-              <button class="btn btn-ghost btn-xs">details</button>
-            </th>
-          </tr>
-          <!-- row 4 -->
-          <tr>
-            <th>
-              <label>
-                <input type="checkbox" class="checkbox" />
-              </label>
-            </th>
-            <td>
-              <div class="flex items-center gap-3">
-                <div class="avatar">
-                  <div class="mask mask-squircle h-12 w-12">
-                    <img
-                      src="https://img.daisyui.com/images/profile/demo/5@94.webp"
-                      alt="Avatar Tailwind CSS Component" />
-                  </div>
-                </div>
-                <div>
-                  <div class="font-bold">Yancy Tear</div>
-                  <div class="text-sm opacity-50">Brazil</div>
-                </div>
-              </div>
-            </td>
-            <td>
-              Wyman-Ledner
-              <br />
-              <span class="badge badge-ghost badge-sm">Community Outreach Specialist</span>
-            </td>
-            <td>Indigo</td>
-            <th>
-              <button class="btn btn-ghost btn-xs">details</button>
-            </th>
-          </tr>
-        </tbody>
-        <!-- foot -->
-        <tfoot>
-          <tr>
-            <th></th>
-            <th>Student</th>
-            <th>Email</th>
-            <th>Date of Birth</th>
-            <th>Course</th>
-            <th>Enrollment Date</th>
-            <th></th>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
-  </main>
-</body>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </main>
 
+    <script>
+      lucide.createIcons();
+    </script>
+  </body>
 </html>
